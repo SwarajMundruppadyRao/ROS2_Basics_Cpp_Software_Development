@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ## Overview
-This project contains beginner tutorials for ROS2 Humble. It includes simple publisher and subscriber nodes to demonstrate basic ROS2 functionalities.
+This project provides beginner-level tutorials for ROS 2 Humble, featuring a simple publisher-subscriber setup to demonstrate core ROS 2 functionalities. It includes a Talker node that publishes messages to a topic and a Listener node that subscribes to that topic. Additionally, a service in the Talker node allows dynamic modification of the published message, while comprehensive logging across all five ROS 2 logging levels (DEBUG, INFO, WARN, ERROR, FATAL) provides detailed output. A launch file enables users to configure parameters, such as publish frequency, through command-line arguments, making this package a practical introduction to ROS 2 basics.
 
 ## Author 
 Swaraj Mundruppady Rao (swarajmr@umd.edu)
