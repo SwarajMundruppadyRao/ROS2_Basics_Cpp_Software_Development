@@ -70,30 +70,22 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
     To run the server_client node with a custom output, use the following command:
 
     ```bash
-    #Open a new terminal and source the setup in this terminal
+    #Open a new terminal and source the setup in this terminal (Here "Changed Ouput" is th string that is being changed, customise this if required)
     ros2 run beginner_tutorials server_client "Changed Output" --ros-args --log-level debug
-    ```
-
-4. **Running the service client**
-    To change the string to be published run the following command in the terminal
-    ``` bash
-    #Open a new terminal and source the setup in this terminal
-    # ros2 run beginner_tutorials server_client <new_string_to_publish> --ros-args --log-level debug
-
     ```
 
 ## Run the same with launch file
 
 **Launching with custom parameters**
 
-    To launch the nodes with a custom launch file and parameters, use the following command:
-    (Modify the frequency as required)
+To launch the nodes with a custom launch file and parameters, use the following command:
+(Modify the frequency as required)
 
-    ```bash
+```bash
     #Open a new terminal and source the setup in this terminal
     ros2 launch beginner_tutorials custom_launch.yaml frequency:=1
-    ```
-    Make sure the frequency value entered is an integer. This will launch publisher and subscriber nodes and server node within the publisher. The server client needs to be called separately for editing the message (Follow Step #4: Running the service client).
+```
+Make sure the frequency value entered is an integer. This will launch publisher and subscriber nodes and server node within the publisher. The server client needs to be called separately for editing the message (Follow Step #4: Running the service client).
 
 
 ## About the Nodes
