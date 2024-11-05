@@ -1,5 +1,7 @@
 # my_beginner_tutorials
 
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
 ## Overview
 This project contains beginner tutorials for ROS2 Humble. It includes simple publisher and subscriber nodes to demonstrate basic ROS2 functionalities.
 
@@ -20,10 +22,10 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
     cd ~/ros2_ws/src/beginner_tutorials 
     ```
 
-1. **Download the Source Code from the Release(either zip or tar.gz)**
+2. **Download the Source Code from the Release(either zip or tar.gz)**
     Unzip the file and paste the contents of the folder into this directory - `ros2_ws/src/beginner_tutorials`
 
-2. **Check for Missing Dependencies Before Building**
+3. **Check for Missing Dependencies Before Building**
 
     To run rosdep in the root of the workspace: 
 
@@ -32,14 +34,14 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
     rosdep install -i --from-path src --rosdistro humble -y
     ```
 
-3. **Build the package**
+4. **Build the package**
     Use colcon to build the package 
 
     ```sh
     colcon build --packages-select beginner_tutorials
     ```
 
-4. **Source the setup**
+5. **Source the setup**
 
     Source the script setup to overlay this workspace on the environment 
     ```sh
@@ -52,29 +54,61 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
 
     To run the talker node, run the following command 
 
-    ```sh
-    ros2 run beginner_tutorials talker
+    ```bash
+    ros2 run beginner_tutorials talker --ros-args --log-level debug
     ```
 
 2. **Running the subscriber node**
 
     To run the subscriber node, run the following command 
-    ```sh
+    ```bash
     #Open a new terminal and source the setup in this terminal
-    ros2 run beginner_tutorials listener
+    ros2 run beginner_tutorials listener --ros-args --log-level debug
+    ```
+3. **Running the server client node**
+
+    To run the server_client node with a custom output, use the following command:
+
+    ```bash
+    #Open a new terminal and source the setup in this terminal
+    ros2 run beginner_tutorials server_client "Changed Output" --ros-args --log-level debug
     ```
 
+4. **Running the service client**
+    To change the string to be published run the following command in the terminal
+    ``` bash
+    #Open a new terminal and source the setup in this terminal
+    # ros2 run beginner_tutorials server_client <new_string_to_publish> --ros-args --log-level debug
 
-## About the Nodes 
+    ```
 
-**Talker**
+## Run the same with launch file
 
-The ```talker``` node publishes messages to the ```topic``` topic
+**Launching with custom parameters**
+
+    To launch the nodes with a custom launch file and parameters, use the following command:
+    (Modify the frequency as required)
+
+    ```bash
+    #Open a new terminal and source the setup in this terminal
+    ros2 launch beginner_tutorials custom_launch.yaml frequency:=1
+    ```
+    Make sure the frequency value entered is an integer. This will launch publisher and subscriber nodes and server node within the publisher. The server client needs to be called separately for editing the message (Follow Step #4: Running the service client).
 
 
-**Listener**
+## About the Nodes
 
-The ```listener``` node subscribes to messages from the ```topic``` topic.
+### Talker Node
+The `talker` node publishes messages to the `/topic` topic. It serves as the primary publisher, broadcasting a customizable string message that can be modified by requests from the `server_client` node.
+
+### Listener Node
+The `listener` node subscribes to the `/topic` topic. It receives and displays the messages published by the `talker` node, ensuring real-time monitoring of any changes in the message content.
+
+### Server Client Node
+The `server_client` node functions as a client that sends requests to modify the message published by the `talker` node. By interacting with the server, it can update the base string that the `talker` node broadcasts to the `/topic` topic.
+
+### Server Node
+The `server` node, embedded within the `talker` node, listens for requests from the `server_client` node. Upon receiving a request, it updates the message string that the `talker` node publishes, allowing dynamic changes to the content broadcasted on the `/topic` topic.
 
 
 ## Linting
@@ -83,13 +117,13 @@ cpplint has been run and the output is saved in the ```cpplint_output.txt``` fil
 
 To run cpplint run the following command :
 
-```sh
+```bash
 find src -name "*.cpp" | xargs cpplint 2>&1 | tee cpplint_output.txt
 ```
 
 ## License
 
-This project is licensed under the BSD-3-Clause Licence. Check the license file for details
+This project is licensed under the BSD-3-Clause Licence. Check the license file for details.
 
 ## Acknowledgements 
 
