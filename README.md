@@ -102,6 +102,9 @@ The `server_client` node functions as a client that sends requests to modify the
 ### Server Node
 The `server` node, embedded within the `talker` node, listens for requests from the `server_client` node. Upon receiving a request, it updates the message string that the `talker` node publishes, allowing dynamic changes to the content broadcasted on the `/topic` topic.
 
+##RQT Console Log Output 
+
+![382980265-41d20258-ffc3-410c-aafc-44ee4b59dc09](https://github.com/user-attachments/assets/0f683457-cdfb-4381-b301-bb2241b6ba98)
 
 ## Linting
 
