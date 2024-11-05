@@ -11,19 +11,24 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
 - Colcon build tool
 - C++17 compatible compiler
 
-## Installation
+## Installation and building the setup
 
-1. **Clone the repository**
-   ```sh
-   git clone https://github.com/SwarajMundruppadyRao/my_beginner_tutorials
-   cd my_beginner_tutorials
-   ```
+1. **Setup the folder structure**
+    ```bash 
+    cd 
+    mkdir -p ros2_ws/src/beginner_tutorials 
+    cd ~/ros2_ws/src/beginner_tutorials 
+    ```
+
+1. **Download the Source Code from the Release(either zip or tar.gz)**
+    Unzip the file and paste the contents of the folder into this directory - `ros2_ws/src/beginner_tutorials`
 
 2. **Check for Missing Dependencies Before Building**
 
     To run rosdep in the root of the workspace: 
 
     ```sh
+    cd ~/ros2_ws 
     rosdep install -i --from-path src --rosdistro humble -y
     ```
 
