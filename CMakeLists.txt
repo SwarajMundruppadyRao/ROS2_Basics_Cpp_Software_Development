@@ -80,6 +80,16 @@ else()
 endif()
 
 if(BUILD_TESTING)
+
+  set (THIS_PACKAGE_INCLUDE_DEPENDS
+    rclcpp
+    std_msgs
+    example_interfaces
+    rosidl_default_runtime
+    tf2
+    tf2_ros
+    geometry_msgs
+  )
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files

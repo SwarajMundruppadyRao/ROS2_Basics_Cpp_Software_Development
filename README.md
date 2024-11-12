@@ -88,6 +88,36 @@ To launch the nodes with a custom launch file and parameters, use the following 
 Make sure the frequency value entered is an integer. This will launch publisher and subscriber nodes and server node within the publisher. The server client needs to be called separately for editing the message (Follow Step #4: Running the service client).
 
 
+
+## TF Frame 
+The talker node in this package will now broadcast a TF frame. The `publisher_member_function.cpp` file includes the implementation for broadcasting a static transform using the `tf2_ros::TransformBroadcaster`. This transform can be visualized in tools like RViz to understand the spatial relationship between different frames in the ROS 2 system.
+
+To broadcast a TF frame, the `talker` node publishes a transform with the following details:
+
+- **Parent frame**: "world"
+- **Child frame**: "talker_frame"
+- **Transform**: A static transform that places the `talker_frame` at a fixed position relative to the "world" frame.
+
+This function is called periodically within the `talker` node to continuously broadcast the transform.
+
+To run the publisher run the following command in the terminal 
+```bash
+cd ~/ros2_ws
+#Colcon build if not done
+source ./install/setup.bash
+ros2 run beginner_tutorials talker talk 0 0 1 0 0 0
+```
+**To view the tf transform, run the following command in a seperate terminal**
+```bash
+# In a new terminal window, echo the topic that broadcasts the static frame:
+ros2 topic echo /tf_static
+#or 
+ros2 run tf2_ros tf2_echo world talk 
+
+# In a new terminal window, get more information about the frames
+ros2 run tf2_tools view_frames
+```
+
 ## About the Nodes
 
 ### Talker Node
