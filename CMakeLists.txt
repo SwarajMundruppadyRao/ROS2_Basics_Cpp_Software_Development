@@ -15,6 +15,10 @@ find_package(rclcpp REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+
 
 ament_export_dependencies(rosidl_default_runtime)
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -22,7 +26,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 
 add_executable(talker src/publisher_member_function.cpp)
-ament_target_dependencies(talker rclcpp std_msgs rosidl_default_runtime)
+ament_target_dependencies(talker rclcpp std_msgs rosidl_default_runtime geometry_msgs tf2 tf2_ros)
 rosidl_target_interfaces(talker
   ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
