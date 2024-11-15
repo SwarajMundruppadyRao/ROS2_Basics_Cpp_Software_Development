@@ -35,7 +35,7 @@ class MinimalPublisher : public rclcpp::Node {
    * @brief Constructor for MinimalPublisher.
    * Initializes the node and sets up the publisher and service.
    */
-  explicit MinimalPublisher(char* transformations[]): Node("publisher") {
+    MinimalPublisher(): Node("publisher") {
     try {
       // Create a publisher to the "topic" topic with a queue size of 10.
       publisher_ = this-> create_publisher<std_msgs::msg::String>("chatter", 10);
@@ -74,7 +74,7 @@ class MinimalPublisher : public rclcpp::Node {
         std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
 
       // Publish Static Transform once at the beginning.
-      this->make_transform(transformations);
+      this->make_transform();
 
 
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialize the Service");
@@ -127,24 +127,28 @@ class MinimalPublisher : public rclcpp::Node {
    * @ brief make_transform function to create a transform and broadcast it.
    * @param transformation[] The array containing the transformation values - topic_name, x, y, z, roll, pitch, yaw
    */
-  void make_transform(char* transformation[]) {
+  void make_transform() {
+
+    const std::string child_frame_id = "talk";
+    const double x = 0.0, y = 0.0, z = 1.0, roll = 0.0, pitch = 0.0, yaw = 0.0;
+
     // Create a transform stamped message.
     geometry_msgs::msg::TransformStamped t;
 
     t.header.stamp = this->get_clock()->now();
     t.header.frame_id = "world";
-    t.child_frame_id = transformation[1];
+    t.child_frame_id = child_frame_id;
 
     // Set the translation and rotation of the transform.
-    t.transform.translation.x = atof(transformation[2]);
-    t.transform.translation.y = atof(transformation[3]);
-    t.transform.translation.z = atof(transformation[4]);
+    t.transform.translation.x = x;
+    t.transform.translation.y = y;
+    t.transform.translation.z = z;
 
     // None-zero quaternion values for rotation.
     tf2::Quaternion q;
 
     // Set the rotation of the transform. Roll, Pitch, Yaw
-    q.setRPY(atof(transformation[5]), atof(transformation[6]), atof(transformation[7]));
+    q.setRPY(roll, pitch, yaw);
 
     // Set the quaternion values.
     t.transform.rotation.x = q.x();
@@ -176,25 +180,11 @@ class MinimalPublisher : public rclcpp::Node {
 };
 
 int main(int argc, char* argv[]) {
-  // Check if the number of arguments is correct.
-  if (argc != 8) {
-    RCLCPP_ERROR_STREAM(rclcpp::get_logger("rclcpp"),
-                        "Invalid number of arguments");
-    return 1;
-  }
-
-  // Check if parent frame is not world.
-  if (strcmp(argv[1], "world") == 0) {
-    RCLCPP_ERROR_STREAM(rclcpp::get_logger("rclcpp"),
-                        "Parent frame cannot be world");
-    return 1;
-  }
-
   // Initialize the ROS2 system.
   rclcpp::init(argc, argv);
 
   // Create a shared pointer to the MinimalPublisher node.
-  auto node = std::make_shared<MinimalPublisher>(argv);
+  auto node = std::make_shared<MinimalPublisher>();
   rclcpp::spin(node);
 
   // Shutdown the ROS2 system.

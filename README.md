@@ -105,7 +105,7 @@ To run the publisher run the following command in the terminal
 cd ~/ros2_ws
 #Colcon build if not done
 source ./install/setup.bash
-ros2 run beginner_tutorials talker talk 0 0 1 0 0 0
+ros2 run beginner_tutorials talker
 ```
 **To view the tf transform, run the following command in a seperate terminal**
 ```bash

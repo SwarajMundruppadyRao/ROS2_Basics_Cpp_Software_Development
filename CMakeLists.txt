@@ -18,6 +18,8 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(catch_ros2 REQUIRED)
+find_package(rosbag2_cpp REQUIRED)
 
 
 ament_export_dependencies(rosidl_default_runtime)
@@ -44,7 +46,6 @@ install(TARGETS
   listener
   server_client
   DESTINATION lib/${PROJECT_NAME}
-  
   )
 
 install(DIRECTORY
@@ -53,7 +54,7 @@ install(DIRECTORY
 )
 
 find_package(Doxygen)
-if ( DOXYGEN_FOUND )
+if (DOXYGEN_FOUND)
   set( DOXYGEN_OUTPUT_DIRECTORY     ${PROJECT_SOURCE_DIR}/docs )
   set( DOXYGEN_COLLABORATION_GRAPH  YES )
   set( DOXYGEN_EXTRACT_ALL          YES )
@@ -81,7 +82,7 @@ endif()
 
 if(BUILD_TESTING)
 
-  set (THIS_PACKAGE_INCLUDE_DEPENDS
+  set(THIS_PACKAGE_INCLUDE_DEPENDS
     rclcpp
     std_msgs
     example_interfaces
@@ -98,7 +99,27 @@ if(BUILD_TESTING)
   # comment the line when this package is in a git repo and when
   # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
+
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+
+  # the following lines skip linters
+  set(ament_cmake_cppcheck_FOUND TRUE)
+  set(ament_cmake_flake8_FOUND TRUE)
+  set(ament_cmake_uncrustify_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  ament_lint_auto_find_test_dependencies()
+
+  # Add a gtest executable
+  set(TESTFILES
+    test/ros2_beginner_tutorial_test.cpp)
+  ament_add_gtest(${PROJECT_NAME}_test ${TESTFILES})
+  ament_target_dependencies(${PROJECT_NAME}_test ${THIS_PACKAGE_INCLUDE_DEPENDS})
+  rosidl_target_interfaces(${PROJECT_NAME}_test ${PROJECT_NAME} "rosidl_typesupport_cpp")
+  install(TARGETS ${PROJECT_NAME}_test DESTINATION lib/${PROJECT_NAME})
+
+
 endif()
 
 ament_package()
