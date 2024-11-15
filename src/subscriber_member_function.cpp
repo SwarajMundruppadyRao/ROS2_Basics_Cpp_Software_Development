@@ -27,11 +27,11 @@ class MinimalSubscriber : public rclcpp::Node{
    */
   MinimalSubscriber(): Node("minimal_subscriber") {
     try {
-    // Create a subscription to the "topic" topic with a queue size of 10.
+    // Create a subscription to the "chatter" topic with a queue size of 10.
     // The TopicCallback method will be called
     // whenever a new message is received.
     subscription_ = this->create_subscription<std_msgs::msg::String>(
-        "topic", 10, std::bind(&MinimalSubscriber::TopicCallback, this, _1));
+        "chatter", 10, std::bind(&MinimalSubscriber::TopicCallback, this, _1));
     RCLCPP_DEBUG_STREAM(this->get_logger(), "Subscriber has been started.");
   } catch (...) {
     // Log an error and a fatal message

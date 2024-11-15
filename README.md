@@ -90,7 +90,7 @@ Make sure the frequency value entered is an integer. This will launch publisher 
 
 
 ## TF Frame 
-The talker node in this package will now broadcast a TF frame. The `publisher_member_function.cpp` file includes the implementation for broadcasting a static transform using the `tf2_ros::TransformBroadcaster`. This transform can be visualized in tools like RViz to understand the spatial relationship between different frames in the ROS 2 system.
+The `talker` node in this package now broadcasts a TF frame. The `publisher_member_function.cpp` file includes the implementation for broadcasting a static transform using the `tf2_ros::TransformBroadcaster`. This transform can be visualized in tools like RViz to understand the spatial relationship between different frames in the ROS 2 system.
 
 To broadcast a TF frame, the `talker` node publishes a transform with the following details:
 
@@ -100,23 +100,61 @@ To broadcast a TF frame, the `talker` node publishes a transform with the follow
 
 This function is called periodically within the `talker` node to continuously broadcast the transform.
 
-To run the publisher run the following command in the terminal 
+To run the publisher, use the following command:
 ```bash
 cd ~/ros2_ws
-#Colcon build if not done
+# Colcon build if not done
 source ./install/setup.bash
 ros2 run beginner_tutorials talker
 ```
-**To view the tf transform, run the following command in a seperate terminal**
+
+**To view the TF transform, run the following commands in separate terminals:**
 ```bash
 # In a new terminal window, echo the topic that broadcasts the static frame:
 ros2 topic echo /tf_static
-#or 
-ros2 run tf2_ros tf2_echo world talk 
+# or 
+ros2 run tf2_ros tf2_echo world talker_frame
 
-# In a new terminal window, get more information about the frames
+# In another terminal window, get more information about the frames:
 ros2 run tf2_tools view_frames
 ```
+
+
+## ROS2 Bag to Record and Replay
+
+To record and replay topics, follow these steps:
+
+1. **Build the workspace**:
+    ```bash
+    colcon build
+    ```
+
+2. **Source the setup**:
+    ```bash
+    source install/setup.bash
+    ```
+
+3. **Run the launch file to start recording**:
+    ```bash
+    ros2 launch beginner_tutorials bag.launch.py enable_recording:=True
+    ```
+
+    The recording will start and stop automatically after 15 seconds. Once the recording has stopped, the files `metadata.yaml` and `rosbag_0.db3` will be created under `ros2_ws/results/rosbag`.
+
+4. **Play the recording**:
+    ```bash
+    ros2 bag play results/rosbag
+    ```
+
+5. **Run the listener node to see the recorded data**:
+    ```bash
+    ros2 run beginner_tutorials listener
+    ```
+
+6. **Echo the topic to view the messages**:
+    ```bash
+    ros2 topic echo /chatter
+    ```
 
 ## About the Nodes
 
