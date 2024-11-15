@@ -28,12 +28,19 @@
 
 class TaskPlanningFixture : public ::testing::Test {
  public:
+
+ /**
+  * @brief Construct a new Task Planning Fixture object
+  */
   TaskPlanningFixture()
   : node_(std::make_shared<rclcpp::Node>("integration_test_node")),
     Logger(node_->get_logger()) {
     RCLCPP_INFO(Logger, "The test node has been initialized.");
   }
 
+  /**
+   * @brief Set up the test fixture
+   */
   void SetUp() override {
     // Start the MinimalPublisher node
     bool retVal = StartROSExec("beginner_tutorials", "publisher", "talker");
@@ -44,6 +51,9 @@ class TaskPlanningFixture : public ::testing::Test {
     RCLCPP_INFO(Logger, "The publisher has been started.");
   }
 
+  /**
+   * @brief Tear down the test fixture, stop the publisher node
+   */
   void TearDown() override {
     // Stop the publisher node
     bool retVal = StopROSExec();
@@ -52,7 +62,10 @@ class TaskPlanningFixture : public ::testing::Test {
   }
 
  protected:
+
+  // Node to communicate with ROS 2
   rclcpp::Node::SharedPtr node_;
+  // Logger to log messages
   rclcpp::Logger Logger;
 
   // Indicates if data was received
@@ -63,12 +76,16 @@ class TaskPlanningFixture : public ::testing::Test {
   // Expected message
   const std::string expected_message_ = " Hi, This is Swaraj";
 
+  // Helper functions to start and stop ROS 2 executables
   std::stringstream cmd_ss, cmdInfo_ss, killCmd_ss;
-
+  // Helper function to start and stop ROS 2 executables
   bool StartROSExec(const char * pkg_name, const char * node_name,
     const char * exec_name) {
+    // Construct start command
     cmd_ss << "ros2 run " << pkg_name << " "
             << exec_name << " > /dev/null 2> /dev/null &";
+
+    // Construct info command
     cmdInfo_ss << "ros2 node info " << "/" <<
             node_name << " > /dev/null 2> /dev/null";
 
@@ -91,13 +108,17 @@ class TaskPlanningFixture : public ::testing::Test {
 
     retVal = -1;
     while (retVal != 0) {
+      // Check if the node is ready
       retVal = system(cmdInfo_ss.str().c_str());
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      // Wait for 2 seconds
+      std::this_thread::sleep_for(std::chrono::seconds(2));
     }
     return true;
   }
 
+  // Helper function to stop ROS 2 executables
   bool StopROSExec() {
+    // Stop the ROS 2 node if it is running
     if (killCmd_ss.str().empty()) {
       return true;
       }
@@ -106,6 +127,7 @@ class TaskPlanningFixture : public ::testing::Test {
   }
 };
 
+// Test the publisher node by checking if it publishes the expected message
 TEST_F(TaskPlanningFixture, PublisherSubscriberTest) {
   // Create a subscriber to listen to the "chatter" topic
   auto subscription = node_->create_subscription<std_msgs::msg::String>(
@@ -132,6 +154,7 @@ TEST_F(TaskPlanningFixture, PublisherSubscriberTest) {
   ASSERT_EQ(received_message_, expected_message_);
 }
 
+// Test the service node by checking if it returns the expected message
 TEST_F(TaskPlanningFixture, ServiceInteractionTest) {
   // Create a client to interact with the "service_node" service
   auto client = node_->

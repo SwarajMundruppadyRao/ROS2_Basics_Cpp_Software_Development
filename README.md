@@ -29,7 +29,7 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
 
     To run rosdep in the root of the workspace: 
 
-    ```sh
+    ```bash
     cd ~/ros2_ws 
     rosdep install -i --from-path src --rosdistro humble -y
     ```
@@ -37,14 +37,14 @@ Swaraj Mundruppady Rao (swarajmr@umd.edu)
 4. **Build the package**
     Use colcon to build the package 
 
-    ```sh
+    ```bash
     colcon build --packages-select beginner_tutorials
     ```
 
 5. **Source the setup**
 
     Source the script setup to overlay this workspace on the environment 
-    ```sh
+    ```bash
     source install/setup.bash
     ```
 
@@ -119,6 +119,31 @@ ros2 run tf2_ros tf2_echo world talker_frame
 ros2 run tf2_tools view_frames
 ```
 
+## Colcon Test File
+
+The `test/test.cpp` file contains level 2 integration tests for the nodes in this package. These tests are designed to verify the functionality of the `talker`, `listener`, and `server_client` nodes, ensuring that they perform as expected.
+
+### Running the Tests
+
+To run the tests, follow these steps:
+
+1. **Build the package with tests**:
+    ```bash
+    colcon build
+    ```
+
+2. **Run the tests**:
+    ```bash
+    colcon test
+    ```
+
+3. **View the test results**:
+    ```bash
+    cat log/latest_test/beginner_tutorials/stdout_stderr.log
+    ```
+
+The tests will output the results, indicating whether each test passed or failed. This helps in maintaining code quality and ensuring that changes do not introduce regressions.
+
 
 ## ROS2 Bag to Record and Replay
 
@@ -189,6 +214,11 @@ To format the code using clang-format with the Google style, run:
 ```bash
 clang-format -style=Google -i src/beginner_tutorials/src/*.cpp
 ```
+The output of this is available under the results directory, the file is `cland_tidy.png`
+
+## Additional Notes 
+1. Ensure that the ROS2 environment is properly set up before building and running the package.
+2. For troubleshooting and additional information, refer to the ROS 2 Humble documentation: [ROS 2 Humble Documentation](https://docs.ros.org/en/humble/index.html)
 
 ## License
 
