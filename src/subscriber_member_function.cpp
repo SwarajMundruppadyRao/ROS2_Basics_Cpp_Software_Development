@@ -1,3 +1,5 @@
+// Copyright (c) 2024 Swaraj Mundruppady Rao. All rights reserved.
+// Licensed under the BSD 3-Clause License.
 /**
  * BSD 3-Clause License
  * @file subscriber_member_function.cpp
@@ -5,6 +7,7 @@
  * @version 1.0
  * @date 2024-11-04
  * @author Swaraj Mundruppady Rao (swarajmr@umd.edu)
+ * @copyright Copyright (c) 2024 Swaraj Mundruppady Rao
  */
 
 #include <functional>
@@ -17,38 +20,41 @@ using std::placeholders::_1;
 
 /**
  * @class MinimalSubscriber
- * @brief A simple ROS2 subscriber node that listens to a topic and logs the received messages.
+ * @brief A simple ROS2 subscriber node that listens to a topic and logs the
+ * received messages.
  */
-class MinimalSubscriber : public rclcpp::Node{
+class MinimalSubscriber : public rclcpp::Node {
  public:
-   /**
+  /**
    * @brief Constructor for MinimalSubscriber.
    * Initializes the node and sets up the subscription.
    */
-  MinimalSubscriber(): Node("minimal_subscriber") {
+  MinimalSubscriber() : Node("minimal_subscriber") {
     try {
-    // Create a subscription to the "topic" topic with a queue size of 10.
-    // The TopicCallback method will be called
-    // whenever a new message is received.
-    subscription_ = this->create_subscription<std_msgs::msg::String>(
-        "topic", 10, std::bind(&MinimalSubscriber::TopicCallback, this, _1));
-    RCLCPP_DEBUG_STREAM(this->get_logger(), "Subscriber has been started.");
-  } catch (...) {
-    // Log an error and a fatal message
-    // if an exception occurs during initialization.
-    RCLCPP_ERROR_STREAM(this->get_logger(),
-      "Error occurred in the constructor.");
-    RCLCPP_FATAL_STREAM(this->get_logger(),
-      "Fatal error occurred in the constructor.");
+      // Create a subscription to the "chatter" topic with a queue size of 10.
+      // The TopicCallback method will be called
+      // whenever a new message is received.
+      subscription_ = this->create_subscription<std_msgs::msg::String>(
+          "chatter", 10,
+          std::bind(&MinimalSubscriber::TopicCallback, this, _1));
+      RCLCPP_DEBUG_STREAM(this->get_logger(), "Subscriber has been started.");
+    } catch (...) {
+      // Log an error and a fatal message
+      // if an exception occurs during initialization.
+      RCLCPP_ERROR_STREAM(this->get_logger(),
+                          "Error occurred in the constructor.");
+      RCLCPP_FATAL_STREAM(this->get_logger(),
+                          "Fatal error occurred in the constructor.");
     }
   }
 
  private:
-   /**
-   * @brief Callback function that is called whenever a new message is received on the subscribed topic.
+  /**
+   * @brief Callback function that is called whenever a new message is received
+   * on the subscribed topic.
    * @param msg The received message.
    */
-  void TopicCallback(const std_msgs::msg::String &msg) const {
+  void TopicCallback(const std_msgs::msg::String& msg) const {
     // Log the received message.
     RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());
   }

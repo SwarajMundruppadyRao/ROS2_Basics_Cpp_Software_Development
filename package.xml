@@ -12,13 +12,19 @@
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>ros2launch</depend>
+  <depend>tf2</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>rosbag2_cpp</depend>
+  <depend>example_interfaces</depend>
+
 
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
   <exec_depend>rosidl_default_runtime</exec_depend>
   <member_of_group>rosidl_interface_packages</member_of_group>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <depend>ament_lint_auto</depend>
+  <depend>ament_lint_common</depend>
   
   <export>
     <build_type>ament_cmake</build_type>
