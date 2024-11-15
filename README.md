@@ -174,14 +174,20 @@ The `server` node, embedded within the `talker` node, listens for requests from 
 
 ![382980265-41d20258-ffc3-410c-aafc-44ee4b59dc09](https://github.com/user-attachments/assets/0f683457-cdfb-4381-b301-bb2241b6ba98)
 
-## Linting
+## Linting and Clang formatting
 
-cpplint has been run and the output is saved in the ```cpplint_output.txt``` file
+cpplint has been run and the output is saved in the `cpplint_output.txt` file.
 
-To run cpplint run the following command :
+To run cpplint, use the following command:
 
 ```bash
-find src -name "*.cpp" | xargs cpplint 2>&1 | tee cpplint_output.txt
+cpplint --filter="-legal/copyright" $(find . -name *.cpp | grep -v "/build/")
+```
+
+To format the code using clang-format with the Google style, run:
+
+```bash
+clang-format -style=Google -i src/beginner_tutorials/src/*.cpp
 ```
 
 ## License
