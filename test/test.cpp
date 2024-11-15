@@ -6,15 +6,6 @@
  * @copyright Swaraj Mundruppady Rao (swarajmr@umd.edu)
  */
 
-
-/**
- * @file test.cpp
- * @brief ROS2 Integration tests for MinimalPublisher and related nodes
- * @version 1.0
- * @date 2024-15-11
- * @copyright Swaraj Mundruppady Rao
- */
-
 #include <gtest/gtest.h>
 #include <cstdio>
 #include <string>
