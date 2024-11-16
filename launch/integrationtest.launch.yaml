@@ -1,0 +1,30 @@
+launch:
+- arg:
+    name: "frequency"
+    default: "5"
+
+- arg:
+    name: 'test_duration'
+    default: '5.0'
+    description: 'Maximum length of the test in seconds.'
+
+
+- node:
+    pkg: 'beginner_tutorials'
+    exec: 'talker'
+    name: 'talker'
+    param:
+      - name: 'frequency'
+        value: '$(var frequency)'
+
+- node:
+    pkg: 'beginner_tutorials'
+    exec: 'listener'
+    name: 'listener'
+
+- catch2_integration_test_node:
+    pkg: 'beginner_tutorials'
+    exec: 'integration_test_node'
+    param:
+    - name: 'test_duration'
+      value: '$(var test_duration)'

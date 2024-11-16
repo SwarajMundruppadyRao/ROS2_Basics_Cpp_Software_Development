@@ -14,11 +14,11 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(tf2 REQUIRED)
-find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
-find_package(ament_cmake_gtest REQUIRED)
+find_package(catch_ros2 REQUIRED)
 
 # Export rosidl dependencies
 ament_export_dependencies(rosidl_default_runtime)
@@ -31,15 +31,17 @@ rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_t
 
 # Add executables
 add_executable(talker src/publisher_member_function.cpp)
+add_executable(server_client src/server_client.cpp)
+add_executable(listener src/subscriber_member_function.cpp)
+
 target_link_libraries(talker ${cpp_typesupport_target})
 ament_target_dependencies(talker rclcpp std_msgs geometry_msgs tf2 tf2_ros)
 
-add_executable(server_client src/server_client.cpp)
+ament_target_dependencies(listener rclcpp std_msgs)
+
 target_link_libraries(server_client ${cpp_typesupport_target})
 ament_target_dependencies(server_client rclcpp)
 
-add_executable(listener src/subscriber_member_function.cpp)
-ament_target_dependencies(listener rclcpp std_msgs)
 
 # Install executables
 install(TARGETS
@@ -58,14 +60,23 @@ install(DIRECTORY
 # Add testing
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
 
-  # Add GTest for test.cpp
-  ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
-  if(TARGET ${PROJECT_NAME}_test)
-    target_link_libraries(${PROJECT_NAME}_test ${cpp_typesupport_target})
-    ament_target_dependencies(${PROJECT_NAME}_test rclcpp std_msgs geometry_msgs tf2 tf2_ros)
-  endif()
+  # Add test executable
+  add_executable(integration_test_node test/test.cpp)
+  # add_dependencies(${PROJECT_NAME}_test ${cpp_typesupport_target})
+  target_link_libraries(integration_test_node catch_ros2::catch_ros2_with_node_main)
+  ament_target_dependencies(integration_test_node rclcpp std_msgs geometry_msgs tf2 tf2_ros catch_ros2)
+  rosidl_target_interfaces(integration_test_node ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+  install(TARGETS
+  integration_test_node
+    DESTINATION lib/${PROJECT_NAME}
+  )
+
+  catch_ros2_add_integration_test(ExampleIntegration_TestYAML
+    LAUNCH_FILE integrationtest.launch.yaml)
 endif()
 
 # Documentation generation
